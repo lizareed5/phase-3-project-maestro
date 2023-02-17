@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import toplogo from './logo.png';
 
 function Login ( { setCurrentUser, login } ) {
+    const navigate = useNavigate();
+
     // initial login form data
     const initialLoginData = {
         email: "",
@@ -19,6 +22,10 @@ function Login ( { setCurrentUser, login } ) {
     const handleSubmit = (e) => {
         e.preventDefault();
         login(loginData)
+    }
+
+    const signUp = () => {
+        navigate("/signup")
     }
 
     return (
@@ -42,6 +49,8 @@ function Login ( { setCurrentUser, login } ) {
                 type="submit"
                 value="Login" />
             </form>
+        <h3>Want an Apron? Signup Here!</h3>
+        <button onClick={signUp}>Yes, Chef!</button>
         </div>
     )
 }

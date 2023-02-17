@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import RecipeCard from "./RecipeCard";
 import { Card , Container } from "semantic-ui-react";
 import Header from './Header';
+import DisplayRecipes from './DisplayRecipes';
 
 function Kisses ({currentUser}) {
     // state for recipes user has kisses
@@ -14,16 +15,23 @@ function Kisses ({currentUser}) {
         .then((data) => setKissedRecipes(data));
     }, [])
 
-    const myKisses = kissedRecipes.map(kiss =>
-        <RecipeCard key={kiss.id} recipe={kiss.recipe} />
-    )
+    // console.log(kissedRecipes)
+
+    // console.log(kissedRecipes[0].recipe.title)
+
+    // const myKisses = kissedRecipes.map(kiss =>
+    //     <RecipeCard key={kiss.id} recipe={kiss.recipe}/>
+    //     )
+
     return (
         <>
-        <Container>
+        <DisplayRecipes listOfRecipes={kissedRecipes}/>
+        {/* <Container>
             <Header/>
             <h1>{currentUser.first_name}'s Chef's Kisses</h1>
-            <Card.Group itemsPerRow={5}>{myKisses}</Card.Group>
-        </Container>
+            {/* <Card.Group itemsPerRow={5}></Card.Group> */}
+            {/* <DisplayRecipes listOfRecipes={kissedRecipes}/> */}
+        {/* </Container> */}
         </>
     )
 }

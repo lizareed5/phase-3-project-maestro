@@ -4,7 +4,7 @@ import Search from './Search';
 import Header from './Header'
 import { Dropdown , Container } from 'semantic-ui-react'
 
-function Recipes ({allRecipes, currentUser, setAllRecipes, handleDeleteRecipe}) {
+function Recipes ({allRecipes, currentUser, setAllRecipes, handleDeleteRecipe, setCurrentRecipe, currentRecipe}) {
 
     // const [allRecipes, setAllRecipes] = useState([]);
     const [searchItem, setSearchItem] = useState("");
@@ -102,7 +102,14 @@ function Recipes ({allRecipes, currentUser, setAllRecipes, handleDeleteRecipe}) 
                 </select>
             </div>
             <br></br>
-            <RecipeCollection currentUser={currentUser} allRecipes={filteredRecipes} setAllRecipes={setAllRecipes} handleDeleteRecipe={handleDeleteRecipe}/>
+            <RecipeCollection
+            currentUser={currentUser}
+            allRecipes={filteredRecipes}
+            setAllRecipes={setAllRecipes}
+            handleDeleteRecipe={handleDeleteRecipe}
+            // currentRecipe={currentRecipe}
+            // setCurrentRecipe={setCurrentRecipe()}
+            />
             </Container>
         </>
     )
