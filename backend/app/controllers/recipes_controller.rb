@@ -24,6 +24,11 @@ class RecipesController < ApplicationController
         recipe.to_json(include: :kisses)
     end
 
+    get "/recipes/:id/kiss_count" do
+        recipe = Recipe.find(params[:id])
+        recipe.kiss_count.to_json
+    end
+
     # finding recipe by id and including messes to CREATE and READ and DELETE
     get "/recipes/:id/messes" do
         recipe = Recipe.find(params[:id])

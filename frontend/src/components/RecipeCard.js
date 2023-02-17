@@ -1,14 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import { Card , Button , Icon , Label , Image , Container, Modal } from "semantic-ui-react";
 
-function RecipeCard ({ recipe , currentUser, allcomment, setAllRecipes, handleDeleteRecipe }) {
+function RecipeCard ({ recipe , currentUser, allcomment, setAllRecipes, handleDeleteRecipe, setCurrentRecipe, currentRecipe }) {
 
-const { title, steps, ingredients, cuisine, time, image_URL, difficulty, id  } = recipe;
 const [openSteps, setOpenSteps] = useState(false);
+const [kissCount, setKissCount] = useState()
+const [messCount, setMessCount] = useState()
+// setCurrentRecipe(recipe);
 
 const handleClick = () => {
     setOpenSteps(true);
 }
+// console.log(recipe.id)
+// console.log(recipe.map(recipe => recipe.kisses))
+
+useEffect(() => {
+    fetch(`http://localhost:9292/recipes/${recipe.id}/kiss_count`)
+    .then(res => res.json())
+    .then(obj => console.log(obj))
+}, [])
+
+console.log(kissCount)
 
 let kiss_count = recipe.kisses.map (kiss => kiss)
 const kiss_count_total = kiss_count.length
@@ -17,8 +29,8 @@ const mess_count_total = mess_count.length
 const comment_count = recipe.comments.map (comment => comment)
 const comment_count_total = comment_count.length
 
-const [kissCount, setKissCount] = useState(kiss_count_total || 0)
-const [messCount, setMessCount] = useState(mess_count_total || 0)
+
+const { title, steps, ingredients, cuisine, time, image_URL, difficulty, id  } = recipe;
 
 function handleYesClick() {
 
@@ -74,9 +86,12 @@ function handleMessClick() {
 
   // function for deleting recipes
     const deleteRecipe = () => {
-        fetch(`http://localhost:9292/recipes/${id}`)
+        fetch(`http://localhost:9292/recipes/${id}`, {
+            method: "DELETE",
+        })
         .then(res => res.json())
         .then(handleDeleteRecipe)
+        
     }
 
     const notYours = () => {

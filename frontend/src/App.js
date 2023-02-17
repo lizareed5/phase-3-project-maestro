@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import Login from './components/Login';
+import Signup from './components/Signup';
 import Home from './components/Home';
 import Kisses from './components/Kisses';
 import Recipes from './components/Recipes';
@@ -13,6 +14,7 @@ import logo from "./components/logo.png";
 function App() {
     // state
     const [allRecipes, setAllRecipes] = useState([]);
+    // const [currentRecipe, setCurrentRecipe] = useState();
     const [users, setUsers] = useState();
     const [currentUser, setCurrentUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
@@ -64,12 +66,18 @@ function App() {
     // helper function for adding new recipe
     function handleNewRecipe(newRecipe) {
       setAllRecipes([...allRecipes, newRecipe])
+      fetch(`http://localhost:9292/users/${currentUser.id}`)
+      .then((r) => r.json())
+      .then((data) => setCurrentUser(data));
   }
 
   // helper function for deleting recipe
   const handleDeleteRecipe = (deletedRecipe) => {
     const deletedRecipeList = allRecipes.filter(recipe => recipe.id !== deletedRecipe.id)
     setAllRecipes(deletedRecipeList)
+    fetch(`http://localhost:9292/users/${currentUser.id}`)
+    .then((r) => r.json())
+    .then((data) => setCurrentUser(data));
   }
 
   return (
@@ -80,11 +88,21 @@ function App() {
       <Routes>
         <Route
           path="/recipes"
-          element={<Recipes currentUser={currentUser} allRecipes={allRecipes} setAllRecipes={setAllRecipes} handleDeleteRecipe={handleDeleteRecipe}/>}
+          element={<Recipes
+            currentUser={currentUser}
+            allRecipes={allRecipes}
+            setAllRecipes={setAllRecipes}
+            handleDeleteRecipe={handleDeleteRecipe}
+            // currentRecipe={currentRecipe}
+            // setCurrentRecipe={setCurrentRecipe}
+            />}
         />
         <Route
           path="/newrecipe"
-          element={<NewRecipe currentUser={currentUser} handleNewRecipe={handleNewRecipe}/>}
+          element={<NewRecipe
+            currentUser={currentUser}
+            handleNewRecipe={handleNewRecipe}
+            />}
         />
         <Route
           path="/mykisses"
@@ -92,19 +110,36 @@ function App() {
         />
         <Route
           path="/home"
-          element={<Home currentUser={currentUser} setLoggedIn={setLoggedIn} />}
+          element={<Home
+            currentUser={currentUser}
+            setLoggedIn={setLoggedIn}
+            // currentRecipe={currentRecipe}
+            // setCurrentRecipe={setCurrentRecipe}
+            />}
         />
         <Route
           path="/profile"
-          element={<MyProfile currentUser={currentUser} allRecipes={allRecipes}/>}
+          element={<MyProfile
+            currentUser={currentUser}
+            allRecipes={allRecipes}
+            // currentRecipe={currentRecipe}
+            // setCurrentRecipe={setCurrentRecipe}
+            />}
         />
-        {/* <Route
-          path="/"
-          element={<Login setCurrentUser={setCurrentUser}/>}
-        /> */}
       </Routes>
       ) : (
-        <Login login={login}/>
+        <Routes>
+          <Route
+            path=""
+            element={<Login login={login}/>}
+            >
+          </Route>
+          <Route
+          path="/signup"
+          element={<Signup/>}
+          />
+        </Routes>
+
       )
     }
     </div>
